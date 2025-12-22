@@ -3,7 +3,6 @@ const Shopper = require('../models/Shopper');
 const Store = require('../models/Store');
 const ReceiptProcessor = require('../services/receiptProcessor');
 const Notification = require('../models/Notification');
-const upload = require('../middleware/upload');
 const Helpers = require('../utils/helpers');
 const logger = require('../utils/logger');
 

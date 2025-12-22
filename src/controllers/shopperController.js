@@ -1,6 +1,7 @@
 const Shopper = require('../models/Shopper');
 const Reward = require('../models/Reward');
 const User = require('../models/User');
+const { loyaltyTiers } = require('../config/constants');
 const Helpers = require('../utils/helpers');
 const logger = require('../utils/logger');
 
@@ -73,8 +74,8 @@ class ShopperController {
           totalPointsEarned: shopper.total_points_earned,
           loyaltyTier: shopper.loyalty_tier,
           tierMultiplier: shopper.tier_multiplier,
-          nextTierAt: shopper.loyalty_tier === 'bronze' ? 10000 : 
-                      shopper.loyalty_tier === 'silver' ? 50000 : null
+          nextTierAt: shopper.loyalty_tier === 'bronze' ? loyaltyTiers.SILVER.minPoints : 
+                      shopper.loyalty_tier === 'silver' ? loyaltyTiers.GOLD.minPoints : null
         })
       );
     } catch (error) {
@@ -146,14 +147,23 @@ class ShopperController {
         gold: ['1.5x points multiplier', 'VIP support', 'Premium rewards', 'Early access to campaigns']
       };
 
+      const currentTier = tierInfo.loyalty_tier;
+      const nextTier = currentTier === 'bronze' ? 'silver' : 
+                       currentTier === 'silver' ? 'gold' : null;
+      
+      let pointsToNextTier = 0;
+      if (nextTier === 'silver') {
+        pointsToNextTier = Math.max(0, loyaltyTiers.SILVER.minPoints - tierInfo.total_points_earned);
+      } else if (nextTier === 'gold') {
+        pointsToNextTier = Math.max(0, loyaltyTiers.GOLD.minPoints - tierInfo.total_points_earned);
+      }
+
       res.json(
         Helpers.successResponse({
           ...tierInfo,
           benefits: benefits[tierInfo.loyalty_tier],
-          nextTier: tierInfo.loyalty_tier === 'bronze' ? 'silver' : 
-                   tierInfo.loyalty_tier === 'silver' ? 'gold' : null,
-          pointsToNextTier: tierInfo.loyalty_tier === 'bronze' ? 10000 - tierInfo.total_points_earned :
-                           tierInfo.loyalty_tier === 'silver' ? 50000 - tierInfo.total_points_earned : 0
+          nextTier,
+          pointsToNextTier
         })
       );
     } catch (error) {
