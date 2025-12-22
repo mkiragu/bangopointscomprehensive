@@ -1,7 +1,7 @@
 const ClockRecord = require('../models/ClockRecord');
 const Notification = require('../models/Notification');
 const User = require('../models/User');
-const { roles } = require('../config/constants');
+const { roles, shiftConfig } = require('../config/constants');
 const Helpers = require('../utils/helpers');
 const logger = require('../utils/logger');
 
@@ -74,8 +74,8 @@ class PPGController {
 
       res.json(
         Helpers.successResponse({
-          shiftStartTime: '08:00:00',
-          shiftDuration: 8,
+          shiftStartTime: shiftConfig.START_TIME,
+          shiftDuration: shiftConfig.DURATION_HOURS,
           todayRecord: today,
           status: today ? (today.clock_out_time ? 'completed' : 'in-progress') : 'not-started'
         })
