@@ -46,10 +46,26 @@ class Reward {
 
     const [rows] = await db.query(query, params);
     
-    const [countResult] = await db.query(
-      'SELECT COUNT(*) as total FROM rewards WHERE 1=1',
-      []
-    );
+    // Get total count with same filters
+    let countQuery = 'SELECT COUNT(*) as total FROM rewards WHERE 1=1';
+    const countParams = [];
+    
+    if (filters.type) {
+      countQuery += ' AND type = ?';
+      countParams.push(filters.type);
+    }
+
+    if (filters.isActive !== undefined) {
+      countQuery += ' AND is_active = ?';
+      countParams.push(filters.isActive);
+    }
+
+    if (filters.maxPoints) {
+      countQuery += ' AND points_cost <= ?';
+      countParams.push(filters.maxPoints);
+    }
+
+    const [countResult] = await db.query(countQuery, countParams);
     
     return {
       rewards: rows,
