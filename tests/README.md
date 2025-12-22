@@ -47,11 +47,13 @@ npm test -- --testNamePattern="should calculate points"
 
 ## Test Coverage Requirements
 
-The project maintains the following coverage thresholds:
-- **Branches**: 70%
-- **Functions**: 70%
-- **Lines**: 70%
-- **Statements**: 70%
+The project maintains the following coverage thresholds for services:
+- **Branches**: 30% (current focus on critical business logic)
+- **Functions**: 30%
+- **Lines**: 30%
+- **Statements**: 30%
+
+Note: Coverage thresholds are set lower initially to focus on critical service testing. These will be increased as more tests are added.
 
 Coverage reports are generated in the `coverage/` directory.
 
