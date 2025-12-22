@@ -49,8 +49,18 @@ class User {
     );
   }
 
+  static async update(userId, updates) {
+    const allowedFields = ['first_name', 'last_name', 'phone_number', 'is_active', 'email_verified', 'role'];
+    return this._updateFields(userId, updates, allowedFields);
+  }
+
   static async updateProfile(userId, updates) {
     const allowedFields = ['first_name', 'last_name', 'phone_number'];
+    return this._updateFields(userId, updates, allowedFields);
+  }
+
+  // Private helper method to reduce duplication
+  static async _updateFields(userId, updates, allowedFields) {
     const fields = [];
     const values = [];
 
