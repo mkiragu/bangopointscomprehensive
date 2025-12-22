@@ -129,8 +129,12 @@ describe('PointsCalculator Service', () => {
       };
 
       Brand.findById.mockImplementation((id) => {
-        if (id === 1) {return Promise.resolve(mockBrand1);}
-        if (id === 2) {return Promise.resolve(mockBrand2);}
+        if (id === 1) {
+          return Promise.resolve(mockBrand1);
+        }
+        if (id === 2) {
+          return Promise.resolve(mockBrand2);
+        }
         return Promise.resolve(null);
       });
 
