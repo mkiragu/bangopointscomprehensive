@@ -79,10 +79,31 @@ class Receipt {
 
     const [rows] = await db.query(query, params);
     
-    const [countResult] = await db.query(
-      'SELECT COUNT(*) as total FROM receipts WHERE 1=1',
-      []
-    );
+    // Get total count with same filters
+    let countQuery = 'SELECT COUNT(*) as total FROM receipts r WHERE 1=1';
+    const countParams = [];
+    
+    if (filters.status) {
+      countQuery += ' AND r.status = ?';
+      countParams.push(filters.status);
+    }
+
+    if (filters.shopperId) {
+      countQuery += ' AND r.shopper_id = ?';
+      countParams.push(filters.shopperId);
+    }
+
+    if (filters.storeId) {
+      countQuery += ' AND r.store_id = ?';
+      countParams.push(filters.storeId);
+    }
+
+    if (filters.ppgId) {
+      countQuery += ' AND r.ppg_id = ?';
+      countParams.push(filters.ppgId);
+    }
+
+    const [countResult] = await db.query(countQuery, countParams);
     
     return {
       receipts: rows,

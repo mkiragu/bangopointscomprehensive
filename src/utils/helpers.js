@@ -98,7 +98,7 @@ class Helpers {
   }
 
   // Check if receipt is duplicate
-  static async checkDuplicateReceipt(db, receiptNumber, storeId, totalAmount, timeWindow = 3600000) {
+  static async checkDuplicateReceipt(db, receiptNumber, storeId, totalAmount) {
     const [rows] = await db.query(
       `SELECT id FROM receipts 
        WHERE receipt_number = ? 

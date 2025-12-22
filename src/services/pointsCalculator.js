@@ -69,15 +69,17 @@ class PointsCalculator {
   /**
    * Check if shopper should be promoted to next tier
    * @param {number} totalPointsEarned - Total points earned by shopper
+   * @param {string} currentTierName - Current tier name
    * @returns {Object} - { tier, multiplier, promoted }
    */
-  static checkTierPromotion(totalPointsEarned) {
-    const currentTier = Helpers.calculateTier(totalPointsEarned);
+  static checkTierPromotion(totalPointsEarned, currentTierName) {
+    const newTier = Helpers.calculateTier(totalPointsEarned);
+    const promoted = newTier.tier !== currentTierName;
     
     return {
-      tier: currentTier.tier,
-      multiplier: currentTier.multiplier,
-      promoted: true // Simplified - in production, compare with previous tier
+      tier: newTier.tier,
+      multiplier: newTier.multiplier,
+      promoted
     };
   }
 

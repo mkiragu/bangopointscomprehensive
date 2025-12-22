@@ -5,16 +5,18 @@ const db = require('../config/database');
 
 const auth = async (req, res, next) => {
   try {
+    const BEARER_PREFIX = 'Bearer ';
+    
     // Get token from header
     const authHeader = req.header('Authorization');
     
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader || !authHeader.startsWith(BEARER_PREFIX)) {
       return res.status(401).json(
         Helpers.errorResponse('No token provided. Authorization denied.')
       );
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(BEARER_PREFIX.length);
 
     // Verify token
     const decoded = jwt.verify(token, jwtSecret);

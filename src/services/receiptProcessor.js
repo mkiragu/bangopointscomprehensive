@@ -32,7 +32,7 @@ class ReceiptProcessor {
       );
 
       // Check for quality score (ETR validation)
-      const qualityScore = this.validateReceiptQuality(receipt);
+      const qualityScore = ReceiptProcessor.validateReceiptQuality(receipt);
       
       if (qualityScore < 50) {
         // Low quality - flag for manual review

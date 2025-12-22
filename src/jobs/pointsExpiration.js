@@ -16,38 +16,48 @@ const pointsExpiration = cron.schedule('0 9 * * *', async () => {
 
     logger.info('Running points expiration warning job');
 
-    // Get all shoppers
-    const { shoppers } = await Shopper.findAll(1, 10000);
-
-    // For each shopper with points, send warning
+    // Process shoppers in batches to avoid memory issues
+    const batchSize = 100;
+    let page = 1;
+    let hasMore = true;
     let warningsSent = 0;
-    for (const shopper of shoppers) {
-      if (shopper.points_balance > 0) {
-        // In production, calculate exact expiring points per brand (non-rollover only)
-        const expiringPoints = shopper.points_balance; // Simplified
-        const expirationDate = Helpers.getPointsExpirationDate();
 
-        // Send notification
-        await Notification.notifyPointsExpiring(
-          shopper.user_id,
-          expiringPoints,
-          expirationDate
-        );
+    while (hasMore) {
+      const { shoppers, total } = await Shopper.findAll(page, batchSize);
 
-        // Send email
-        try {
-          await emailService.sendPointsExpirationWarning(
-            shopper.email,
-            shopper.first_name,
+      // For each shopper with points, send warning
+      for (const shopper of shoppers) {
+        if (shopper.points_balance > 0) {
+          // In production, calculate exact expiring points per brand (non-rollover only)
+          const expiringPoints = shopper.points_balance; // Simplified
+          const expirationDate = Helpers.getPointsExpirationDate();
+
+          // Send notification
+          await Notification.notifyPointsExpiring(
+            shopper.user_id,
             expiringPoints,
             expirationDate
           );
-        } catch (emailError) {
-          logger.error(`Failed to send expiration email to ${shopper.email}:`, emailError);
-        }
 
-        warningsSent++;
+          // Send email
+          try {
+            await emailService.sendPointsExpirationWarning(
+              shopper.email,
+              shopper.first_name,
+              expiringPoints,
+              expirationDate
+            );
+          } catch (emailError) {
+            logger.error(`Failed to send expiration email to ${shopper.email}:`, emailError);
+          }
+
+          warningsSent++;
+        }
       }
+
+      // Check if there are more pages
+      hasMore = (page * batchSize) < total;
+      page++;
     }
 
     logger.info(`Sent ${warningsSent} expiration warnings`);
