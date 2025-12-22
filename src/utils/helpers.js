@@ -73,7 +73,17 @@ class Helpers {
   static paginate(page = 1, perPage = 30) {
     const limit = Math.min(parseInt(perPage), 100);
     const offset = (Math.max(parseInt(page), 1) - 1) * limit;
-    return { limit, offset };
+    return { limit, offset, page: Math.max(parseInt(page), 1), perPage: limit };
+  }
+
+  // Build pagination response
+  static buildPaginationResponse(total, page, perPage) {
+    return {
+      total,
+      page: parseInt(page),
+      perPage: parseInt(perPage),
+      totalPages: Math.ceil(total / perPage)
+    };
   }
 
   // Success response
