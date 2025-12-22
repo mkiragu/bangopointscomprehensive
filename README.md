@@ -35,6 +35,30 @@ Production-ready loyalty platform for the Kenyan market with points management, 
 
 ## Installation
 
+### Quick Install (macOS)
+
+For macOS users, we provide an automated installation script that installs all dependencies:
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd bangopointscomprehensive
+
+# Run the installation script
+./install-macos.sh
+```
+
+The script will automatically:
+- ✅ Install Homebrew (if not present)
+- ✅ Install Node.js 18 LTS
+- ✅ Install MySQL 8.0
+- ✅ Install all npm dependencies
+- ✅ Create necessary directories
+- ✅ Set up database and seed data
+- ✅ Configure environment file
+
+### Manual Installation (All Platforms)
+
 1. **Clone the repository**
 ```bash
 git clone <repository-url>
