@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle, CheckCircle2, CheckCircle } from 'lucide-react';
 
@@ -13,7 +13,6 @@ const Login = () => {
   const [touched, setTouched] = useState({});
   
   const { login } = useAuthStore();
-  const navigate = useNavigate();
 
   // Email validation
   const validateEmail = (email) => {
@@ -120,9 +119,9 @@ const Login = () => {
         const redirectPath = roleRoutes[user?.role] || '/shopper/dashboard';
         console.log('Redirecting to:', redirectPath);
         
-        // Add a small delay to show the success message
+        // Add a small delay to show the success message, then use full page reload
         setTimeout(() => {
-          navigate(redirectPath, { replace: true });
+          window.location.href = redirectPath;
         }, 1500);
       } else {
         console.error('Login failed:', result);
