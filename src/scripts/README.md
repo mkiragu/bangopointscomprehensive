@@ -17,23 +17,31 @@ The `seed-demo-data.js` script creates:
 
 ### 2. **Demo Users for All 10 Roles**
 
-**Shoppers** (10 users):
+#### Executive Level (5 users)
+- **CEO**: `ceo@bangopoints.com`
+- **COO**: `coo@bangopoints.com`
+- **CTO**: `cto@bangopoints.com`
+- **CFO**: `cfo@bangopoints.com`
+- **CMO**: `cmo@bangopoints.com`
+
+#### Management Level (6 users)
+- **Brand Managers** (2): `brandmanager@bangopoints.com`, `brandmanager2@bangopoints.com`
+- **Area Managers** (2): `areamanager@bangopoints.com`, `areamanager2@bangopoints.com`
+- **BEO Supervisor**: `beosupervisor@bangopoints.com`
+- **PPG Supervisor**: `ppgsupervisor@bangopoints.com`
+
+#### Operational Staff
+- **Shop Staff**: `shopassistant@bangopoints.com`
+- **BEO Staff** (3): `beo1@bangopoints.com` through `beo3@bangopoints.com`
+- **PPG Staff** (5): `ppg1@bangopoints.com` through `ppg5@bangopoints.com`
+
+#### Shoppers (10 users)
 - `shopper1@bangopoints.com` through `shopper10@bangopoints.com`
 - Varied loyalty tiers (Bronze, Silver, Gold)
 - Different point balances and histories
 
-**PPG Staff** (5 users):
-- `ppg1@bangopoints.com` through `ppg5@bangopoints.com`
-- Assigned to different store locations
-- Complete clock in/out histories
-
-**BEO Staff** (3 users):
-- `beo1@bangopoints.com` through `beo3@bangopoints.com`
-- Receipt processing permissions
-
-**Administrative Roles**:
-- Admin: `admin@bangopoints.com`
-- Brand Manager: `brandmanager@bangopoints.com`
+#### Administrator
+- **Admin**: `admin@bangopoints.com`
 
 **All demo users password**: `Demo@123`  
 **Admin password**: `Admin@123`
@@ -107,8 +115,15 @@ DB_PASSWORD=bangopoints2026
 
 ✅ Connected to database
 ✅ Extracted 50 unique brands from CSV
-👥 Creating demo users...
-✅ Created 10 shoppers, 5 PPG staff, 3 BEO staff
+👥 Creating demo users for all roles...
+✅ Created users for all 10 roles:
+   - 1 Admin
+   - 5 Executives (CEO, COO, CTO, CFO, CMO)
+   - 6 Management (Brand Mgrs, Area Mgrs, Supervisors)
+   - 1 Shop Staff
+   - 10 Shoppers
+   - 5 PPG Staff
+   - 3 BEO Staff
 📊 Creating shopper profiles...
 ✅ Created 10 shopper profiles
 🏷️  Creating brands...
@@ -129,12 +144,29 @@ DB_PASSWORD=bangopoints2026
    - 100 clock records
    - 15 notifications
 
-🔐 Demo User Credentials:
-   Admin: admin@bangopoints.com / Admin@123
-   Brand Manager: brandmanager@bangopoints.com / Demo@123
-   Shopper: shopper1@bangopoints.com / Demo@123
-   PPG: ppg1@bangopoints.com / Demo@123
-   BEO: beo1@bangopoints.com / Demo@123
+🔐 Demo User Credentials (Password: Demo@123 for all except Admin):
+
+   Executive Level:
+   • Admin: admin@bangopoints.com / Admin@123
+   • CEO: ceo@bangopoints.com / Demo@123
+   • COO: coo@bangopoints.com / Demo@123
+   • CTO: cto@bangopoints.com / Demo@123
+   • CFO: cfo@bangopoints.com / Demo@123
+   • CMO: cmo@bangopoints.com / Demo@123
+
+   Management Level:
+   • Brand Manager: brandmanager@bangopoints.com / Demo@123
+   • Brand Manager 2: brandmanager2@bangopoints.com / Demo@123
+   • Area Manager: areamanager@bangopoints.com / Demo@123
+   • Area Manager 2: areamanager2@bangopoints.com / Demo@123
+   • BEO Supervisor: beosupervisor@bangopoints.com / Demo@123
+   • PPG Supervisor: ppgsupervisor@bangopoints.com / Demo@123
+
+   Operational Level:
+   • Shop Staff: shopassistant@bangopoints.com / Demo@123
+   • BEO Staff: beo1@bangopoints.com / Demo@123
+   • PPG Staff: ppg1@bangopoints.com / Demo@123
+   • Shopper: shopper1@bangopoints.com / Demo@123
 ```
 
 ## Data Scenarios
