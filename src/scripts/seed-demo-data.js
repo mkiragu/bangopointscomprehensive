@@ -74,10 +74,108 @@ async function seedDemoData() {
     startDate.setDate(startDate.getDate() - 30);
 
     // Insert demo users
-    console.log('\n👥 Creating demo users...');
+    console.log('\n👥 Creating demo users for all roles...');
     const shopperEmails = [];
     const ppgUserIds = [];
     const beoUserIds = [];
+    let executiveCount = 0;
+    let managementCount = 0;
+    
+    // Admin
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'admin', 'System', 'Administrator', '+254712000001', TRUE, TRUE)`,
+      ['admin@bangopoints.com', adminPasswordHash]
+    );
+    
+    // Executive Roles
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'executive', 'John', 'CEO', '+254712000010', TRUE, TRUE)`,
+      ['ceo@bangopoints.com', demoPasswordHash]
+    );
+    executiveCount++;
+    
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'executive', 'Sarah', 'COO', '+254712000011', TRUE, TRUE)`,
+      ['coo@bangopoints.com', demoPasswordHash]
+    );
+    executiveCount++;
+    
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'executive', 'Michael', 'CTO', '+254712000012', TRUE, TRUE)`,
+      ['cto@bangopoints.com', demoPasswordHash]
+    );
+    executiveCount++;
+    
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'executive', 'Grace', 'CFO', '+254712000013', TRUE, TRUE)`,
+      ['cfo@bangopoints.com', demoPasswordHash]
+    );
+    executiveCount++;
+    
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'executive', 'David', 'CMO', '+254712000014', TRUE, TRUE)`,
+      ['cmo@bangopoints.com', demoPasswordHash]
+    );
+    executiveCount++;
+    
+    // Brand Manager
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'brand_manager', 'Mary', 'Brand Manager', '+254712000020', TRUE, TRUE)`,
+      ['brandmanager@bangopoints.com', demoPasswordHash]
+    );
+    managementCount++;
+    
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'brand_manager', 'Peter', 'Senior Brand Manager', '+254712000021', TRUE, TRUE)`,
+      ['brandmanager2@bangopoints.com', demoPasswordHash]
+    );
+    managementCount++;
+    
+    // Area Manager
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'area_manager', 'James', 'Area Manager North', '+254712000030', TRUE, TRUE)`,
+      ['areamanager@bangopoints.com', demoPasswordHash]
+    );
+    managementCount++;
+    
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'area_manager', 'Lucy', 'Area Manager South', '+254712000031', TRUE, TRUE)`,
+      ['areamanager2@bangopoints.com', demoPasswordHash]
+    );
+    managementCount++;
+    
+    // BEO Supervisor
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'beo_supervisor', 'Robert', 'BEO Supervisor', '+254712000040', TRUE, TRUE)`,
+      ['beosupervisor@bangopoints.com', demoPasswordHash]
+    );
+    managementCount++;
+    
+    // PPG Supervisor
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'ppg_supervisor', 'Anne', 'PPG Supervisor', '+254712000050', TRUE, TRUE)`,
+      ['ppgsupervisor@bangopoints.com', demoPasswordHash]
+    );
+    managementCount++;
+    
+    // Shop Staff
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'shop', 'Alice', 'Shop Assistant', '+254712000060', TRUE, TRUE)`,
+      ['shopassistant@bangopoints.com', demoPasswordHash]
+    );
     
     // Shoppers
     for (let i = 1; i <= 10; i++) {
@@ -112,21 +210,14 @@ async function seedDemoData() {
       if (result.insertId) beoUserIds.push(result.insertId);
     }
     
-    // Admin
-    await connection.query(
-      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
-       VALUES (?, ?, 'admin', 'System', 'Administrator', '+254712000001', TRUE, TRUE)`,
-      ['admin@bangopoints.com', adminPasswordHash]
-    );
-    
-    // Brand Manager
-    await connection.query(
-      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
-       VALUES (?, ?, 'brand_manager', 'Brand', 'Manager', '+254712000015', TRUE, TRUE)`,
-      ['brandmanager@bangopoints.com', demoPasswordHash]
-    );
-    
-    console.log(`✅ Created ${shopperEmails.length} shoppers, ${ppgUserIds.length} PPG staff, ${beoUserIds.length} BEO staff, 1 brand manager`);
+    console.log(`✅ Created users for all 10 roles:`);
+    console.log(`   - 1 Admin`);
+    console.log(`   - ${executiveCount} Executives (CEO, COO, CTO, CFO, CMO)`);
+    console.log(`   - ${managementCount} Management (Brand Mgrs, Area Mgrs, Supervisors)`);
+    console.log(`   - 1 Shop Staff`);
+    console.log(`   - ${shopperEmails.length} Shoppers`);
+    console.log(`   - ${ppgUserIds.length} PPG Staff`);
+    console.log(`   - ${beoUserIds.length} BEO Staff`);
 
     // Get user IDs
     const [shopperUsers] = await connection.query(
@@ -251,12 +342,26 @@ async function seedDemoData() {
     console.log(`   - ${receiptCount} receipts`);
     console.log(`   - ${clockCount} clock records`);
     console.log(`   - ${notificationCount} notifications`);
-    console.log('\n🔐 Demo User Credentials:');
-    console.log('   Admin: admin@bangopoints.com / Admin@123');
-    console.log('   Brand Manager: brandmanager@bangopoints.com / Demo@123');
-    console.log('   Shopper: shopper1@bangopoints.com / Demo@123');
-    console.log('   PPG: ppg1@bangopoints.com / Demo@123');
-    console.log('   BEO: beo1@bangopoints.com / Demo@123\n');
+    console.log('\n🔐 Demo User Credentials (Password: Demo@123 for all except Admin):');
+    console.log('\n   Executive Level:');
+    console.log('   • Admin: admin@bangopoints.com / Admin@123');
+    console.log('   • CEO: ceo@bangopoints.com / Demo@123');
+    console.log('   • COO: coo@bangopoints.com / Demo@123');
+    console.log('   • CTO: cto@bangopoints.com / Demo@123');
+    console.log('   • CFO: cfo@bangopoints.com / Demo@123');
+    console.log('   • CMO: cmo@bangopoints.com / Demo@123');
+    console.log('\n   Management Level:');
+    console.log('   • Brand Manager: brandmanager@bangopoints.com / Demo@123');
+    console.log('   • Brand Manager 2: brandmanager2@bangopoints.com / Demo@123');
+    console.log('   • Area Manager: areamanager@bangopoints.com / Demo@123');
+    console.log('   • Area Manager 2: areamanager2@bangopoints.com / Demo@123');
+    console.log('   • BEO Supervisor: beosupervisor@bangopoints.com / Demo@123');
+    console.log('   • PPG Supervisor: ppgsupervisor@bangopoints.com / Demo@123');
+    console.log('\n   Operational Level:');
+    console.log('   • Shop Staff: shopassistant@bangopoints.com / Demo@123');
+    console.log('   • BEO Staff: beo1@bangopoints.com / Demo@123');
+    console.log('   • PPG Staff: ppg1@bangopoints.com / Demo@123');
+    console.log('   • Shopper: shopper1@bangopoints.com / Demo@123\n');
 
   } catch (error) {
     console.error('❌ Error seeding demo data:', error.message);
