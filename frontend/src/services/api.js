@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { mockApiInterceptor, isMockMode } from './mockApi';
 
 // Constants
 const AUTH_STORAGE_KEY = 'auth-storage';
@@ -37,7 +38,35 @@ api.setAuthStoreUpdateToken = (updateFn) => {
 
 // Add token to requests
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
+    // Check if we're in mock mode
+    if (isMockMode()) {
+      console.log('[API] Mock mode enabled, intercepting request');
+      const method = config.method.toUpperCase();
+      const url = config.url.replace('/api', '');
+      
+      try {
+        const mockResponse = await mockApiInterceptor(method, url, config.data);
+        if (mockResponse) {
+          // Return mock response directly, bypassing axios
+          return Promise.reject({
+            config,
+            isMockResponse: true,
+            response: {
+              data: mockResponse,
+              status: mockResponse.success ? 200 : (mockResponse.code || 400),
+              statusText: mockResponse.success ? 'OK' : 'Error',
+              headers: {},
+              config
+            }
+          });
+        }
+      } catch (error) {
+        console.error('[API] Mock interceptor error:', error);
+      }
+    }
+    
+    // For real API calls, add auth token
     const { token } = getAuthFromStorage();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -51,6 +80,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
+    // Check if this is a mock response
+    if (error.isMockResponse) {
+      return Promise.resolve(error.response);
+    }
+    
     const originalRequest = error.config;
     
     if (error.response?.status === 401 && !originalRequest._retry) {

@@ -53,8 +53,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Landing page */}
-        <Route path="/" element={<Landing />} />
+        {/* Demo role selector as landing page */}
+        <Route path="/" element={<Login />} />
+        
+        {/* Original landing page moved to /home */}
+        <Route path="/home" element={<Landing />} />
         
         {/* Auth routes */}
         <Route element={<AuthLayout />}>
@@ -104,8 +107,12 @@ function App() {
   );
 }
 
-// Private route wrapper
+// Private route wrapper - Disabled for demo mode
 function PrivateRoute({ children }) {
+  // In demo mode, allow access to all routes without authentication
+  return children;
+  
+  /* Original authentication check (disabled for demo):
   const { user } = useAuthStore();
   
   if (!user) {
@@ -113,6 +120,7 @@ function PrivateRoute({ children }) {
   }
   
   return children;
+  */
 }
 
 

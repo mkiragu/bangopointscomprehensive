@@ -14,14 +14,19 @@ const pool = mysql.createPool({
   keepAliveInitialDelay: 0
 });
 
-// Test the connection
-pool.getConnection()
-  .then(connection => {
+// Export a function to test database connectivity
+const testConnection = async () => {
+  try {
+    const connection = await pool.getConnection();
     logger.info('Database connection established successfully');
     connection.release();
-  })
-  .catch(err => {
+    return true;
+  } catch (err) {
     logger.error('Unable to connect to database:', err);
-  });
+    return false;
+  }
+};
 
+// Export pool as default with testConnection method attached
+pool.testConnection = testConnection;
 module.exports = pool;
