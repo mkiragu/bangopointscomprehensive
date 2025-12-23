@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 
+// Landing page
+import Landing from './pages/Landing';
+
 // Auth pages
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -46,8 +49,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Landing page */}
+        <Route path="/" element={<Landing />} />
+        
         {/* Auth routes */}
         <Route element={<AuthLayout />}>
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/register" element={<Register />} />
+          {/* Legacy routes for backwards compatibility */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
@@ -80,8 +89,7 @@ function App() {
           <Route path="/brand-manager/brands" element={<BrandManagerBrands />} />
         </Route>
 
-        {/* Default redirect */}
-        <Route path="/" element={<RedirectToDashboard />} />
+        {/* Fallback for unknown routes */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
@@ -93,35 +101,12 @@ function PrivateRoute({ children }) {
   const { user } = useAuthStore();
   
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth/login" replace />;
   }
   
   return children;
 }
 
-// Redirect to appropriate dashboard based on role
-function RedirectToDashboard() {
-  const { user } = useAuthStore();
-  
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-  
-  const roleRedirects = {
-    shopper: '/shopper/dashboard',
-    admin: '/admin/dashboard',
-    ppg: '/ppg/dashboard',
-    ppg_supervisor: '/ppg/dashboard',
-    beo: '/beo/dashboard',
-    beo_supervisor: '/beo/dashboard',
-    brand_manager: '/brand-manager/dashboard',
-    area_manager: '/admin/dashboard',
-    executive: '/admin/dashboard',
-    shop: '/shopper/dashboard',
-  };
-  
-  const redirectPath = roleRedirects[user.role] || '/shopper/dashboard';
-  return <Navigate to={redirectPath} replace />;
-}
+
 
 export default App;
