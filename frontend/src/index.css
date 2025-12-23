@@ -10,10 +10,6 @@
   body {
     @apply bg-dark-500 text-silver-100 antialiased;
   }
-  
-  html {
-    @apply dark;
-  }
 }
 
 @layer components {
