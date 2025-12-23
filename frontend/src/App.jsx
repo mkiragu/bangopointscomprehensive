@@ -53,8 +53,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Landing page */}
-        <Route path="/" element={<Landing />} />
+        {/* Demo role selector as landing page */}
+        <Route path="/" element={<Login />} />
+        
+        {/* Original landing page moved to /home */}
+        <Route path="/home" element={<Landing />} />
         
         {/* Auth routes */}
         <Route element={<AuthLayout />}>
