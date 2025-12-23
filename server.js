@@ -1,13 +1,18 @@
 require('dotenv').config();
-const express = require('express');
 const app = require('./src/app');
 const logger = require('./src/utils/logger');
 const JobScheduler = require('./src/jobs');
+const db = require('./src/config/database');
 
 const PORT = process.env.PORT || 3000;
 
-const server = app.listen(PORT, () => {
-  logger.info(`BangoPoints Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+const server = app.listen(PORT, async () => {
+  logger.info(`BangoPoints Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+  
+  // Test database connection (non-blocking)
+  if (db.testConnection) {
+    await db.testConnection();
+  }
   
   // Initialize cron jobs
   JobScheduler.init();
