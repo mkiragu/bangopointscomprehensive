@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../store/authStore';
 import { UserCircle, ShoppingCart, Shield, Users, Building2, Briefcase } from 'lucide-react';
+import { mockUsers } from '../../services/mockData';
 
 const Login = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { updateUser, updateToken } = useAuthStore();
 
   // Demo users for quick access
   const demoUsers = [
@@ -67,9 +72,21 @@ const Login = () => {
     console.log('Demo role selected:', user);
     setSuccessMessage(`Opening ${user.name} dashboard...`);
     setLoading(true);
-    // Navigate directly to dashboard
+    
+    // Map demo user to role key
+    const roleKey = user.role === 'brand_manager' ? 'brandManager' : user.role;
+    const mockUser = mockUsers[roleKey];
+    
+    if (mockUser) {
+      // Set mock user in auth store
+      updateUser(mockUser);
+      updateToken('demo-token-' + Date.now());
+      console.log('Mock user set:', mockUser);
+    }
+    
+    // Navigate directly to dashboard after setting user
     setTimeout(() => {
-      window.location.href = user.dashboard;
+      navigate(user.dashboard);
     }, 500);
   };
 

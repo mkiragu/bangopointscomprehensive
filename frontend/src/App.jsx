@@ -107,8 +107,12 @@ function App() {
   );
 }
 
-// Private route wrapper
+// Private route wrapper - Disabled for demo mode
 function PrivateRoute({ children }) {
+  // In demo mode, allow access to all routes without authentication
+  return children;
+  
+  /* Original authentication check (disabled for demo):
   const { user } = useAuthStore();
   
   if (!user) {
@@ -116,6 +120,7 @@ function PrivateRoute({ children }) {
   }
   
   return children;
+  */
 }
 
 
