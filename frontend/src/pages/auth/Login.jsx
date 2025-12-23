@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import { UserCircle, ShoppingCart, Shield, Users, Building2, Briefcase } from 'lucide-react';
+import { UserCircle, ShoppingCart, Shield, Users, Building2, Briefcase, Store, UserCheck, UserCog, MapPin } from 'lucide-react';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,16 @@ const Login = () => {
       description: 'Full system access'
     },
     { 
+      name: 'Executive', 
+      email: 'ceo@test.com',
+      password: 'Test@123',
+      role: 'executive', 
+      dashboard: '/admin/dashboard',
+      icon: Building2,
+      color: 'from-red-500 to-red-700',
+      description: 'High-level analytics'
+    },
+    { 
       name: 'Brand Manager', 
       email: 'manager@test.com',
       password: 'Test@123',
@@ -33,24 +43,24 @@ const Login = () => {
       description: 'Manage campaigns & analytics'
     },
     { 
-      name: 'Shopper', 
-      email: 'shopper@test.com',
+      name: 'Area Manager', 
+      email: 'area@test.com',
       password: 'Test@123',
-      role: 'shopper', 
-      dashboard: '/shopper/dashboard',
-      icon: ShoppingCart,
-      color: 'from-green-500 to-green-700',
-      description: 'Earn & redeem points'
+      role: 'area_manager', 
+      dashboard: '/admin/dashboard',
+      icon: MapPin,
+      color: 'from-indigo-500 to-indigo-700',
+      description: 'Regional oversight'
     },
     { 
-      name: 'PPG Agent', 
-      email: 'ppg@test.com',
+      name: 'BEO Supervisor', 
+      email: 'beo-supervisor@test.com',
       password: 'Test@123',
-      role: 'ppg', 
-      dashboard: '/ppg/dashboard',
-      icon: UserCircle,
-      color: 'from-orange-500 to-orange-700',
-      description: 'Product promotion'
+      role: 'beo_supervisor', 
+      dashboard: '/beo/dashboard',
+      icon: UserCheck,
+      color: 'from-cyan-500 to-cyan-700',
+      description: 'Manages BEO teams'
     },
     { 
       name: 'BEO Agent', 
@@ -60,17 +70,47 @@ const Login = () => {
       dashboard: '/beo/dashboard',
       icon: Users,
       color: 'from-teal-500 to-teal-700',
-      description: 'Brand engagement'
+      description: 'Data validation'
     },
     { 
-      name: 'Executive', 
-      email: 'ceo@test.com',
+      name: 'PPG Supervisor', 
+      email: 'ppg-supervisor@test.com',
       password: 'Test@123',
-      role: 'executive', 
-      dashboard: '/admin/dashboard',
-      icon: Building2,
-      color: 'from-red-500 to-red-700',
-      description: 'Executive overview'
+      role: 'ppg_supervisor', 
+      dashboard: '/ppg/dashboard',
+      icon: UserCog,
+      color: 'from-amber-500 to-amber-700',
+      description: 'Oversees PPG teams'
+    },
+    { 
+      name: 'PPG Agent', 
+      email: 'ppg@test.com',
+      password: 'Test@123',
+      role: 'ppg', 
+      dashboard: '/ppg/dashboard',
+      icon: UserCircle,
+      color: 'from-orange-500 to-orange-700',
+      description: 'Data collection'
+    },
+    { 
+      name: 'Shop', 
+      email: 'shop@test.com',
+      password: 'Test@123',
+      role: 'shop', 
+      dashboard: '/shopper/dashboard',
+      icon: Store,
+      color: 'from-lime-500 to-lime-700',
+      description: 'Corporate account'
+    },
+    { 
+      name: 'Shopper', 
+      email: 'shopper@test.com',
+      password: 'Test@123',
+      role: 'shopper', 
+      dashboard: '/shopper/dashboard',
+      icon: ShoppingCart,
+      color: 'from-green-500 to-green-700',
+      description: 'Earn & redeem points'
     },
   ];
 
