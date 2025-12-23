@@ -11,18 +11,40 @@ export const useAuthStore = create(
       
       login: async (email, password) => {
         try {
+          console.log('AuthStore: Attempting login for:', email);
           const response = await api.post('/auth/login', { email, password });
+          console.log('AuthStore: Login response:', response.data);
+          
           // Backend returns { success, message, data: { user, accessToken, refreshToken } }
+          if (!response.data || !response.data.data) {
+            console.error('AuthStore: Invalid response structure', response.data);
+            return {
+              success: false,
+              error: 'Invalid server response'
+            };
+          }
+          
           const { user, accessToken, refreshToken } = response.data.data;
           
+          if (!user || !accessToken) {
+            console.error('AuthStore: Missing user or token in response');
+            return {
+              success: false,
+              error: 'Missing authentication data'
+            };
+          }
+          
+          console.log('AuthStore: Setting auth state with user:', user);
           set({ user, token: accessToken, refreshToken });
           api.setToken(accessToken);
           
+          console.log('AuthStore: Login successful');
           return { success: true, user };
         } catch (error) {
+          console.error('AuthStore: Login error:', error);
           return {
             success: false,
-            error: error.response?.data?.message || 'Login failed'
+            error: error.response?.data?.message || error.message || 'Login failed'
           };
         }
       },
