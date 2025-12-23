@@ -23,7 +23,20 @@ const adRoutes = require('./routes/ads');
 const app = express();
 
 // Security middleware
-app.use(helmet());
+// Note: unsafe-inline is needed for Vite-built assets. In production, consider using
+// a nonce-based CSP with proper Vite configuration
+app.use(helmet({
+  contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"], // Needed for Vite build
+      scriptSrc: ["'self'", "'unsafe-inline'"], // Needed for Vite build
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'"],
+    },
+  } : false, // Disable CSP in development
+}));
 
 // CORS configuration
 app.use(cors({
@@ -45,6 +58,12 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+
+// Serve frontend static files in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve frontend build
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+}
 
 // Request logging
 app.use((req, res, next) => {
@@ -78,13 +97,21 @@ app.use('/api/tickets', ticketRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/ads', adRoutes);
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ 
-    success: false, 
-    message: 'Route not found' 
+// Serve frontend in production (must be after API routes)
+if (process.env.NODE_ENV === 'production') {
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
   });
-});
+} else {
+  // 404 handler for development (when frontend runs separately)
+  app.use((req, res) => {
+    res.status(404).json({ 
+      success: false, 
+      message: 'Route not found' 
+    });
+  });
+}
 
 // Error handling middleware (must be last)
 app.use(errorHandler);

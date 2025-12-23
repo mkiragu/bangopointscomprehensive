@@ -116,9 +116,13 @@ echo ""
 # Step 4: Install project dependencies
 echo "Step 4: Installing Node.js project dependencies..."
 if [ -f "package.json" ]; then
-    print_info "Running npm install..."
+    print_info "Installing backend dependencies..."
     npm install
-    print_success "Project dependencies installed successfully"
+    print_success "Backend dependencies installed successfully"
+    
+    print_info "Installing frontend dependencies..."
+    npm run install:frontend
+    print_success "Frontend dependencies installed successfully"
 else
     print_error "package.json not found. Make sure you're in the project root directory."
     exit 1

@@ -10,7 +10,11 @@
     "test:watch": "jest --watch",
     "lint": "eslint .",
     "migrate": "node src/migrations/migrate.js",
-    "seed": "node src/migrations/seed.js"
+    "seed": "node src/migrations/seed.js",
+    "build": "cd frontend && npm install && npm run build && cd ..",
+    "build:clean": "rm -rf frontend/dist && npm run build",
+    "install:frontend": "cd frontend && npm install && cd ..",
+    "start:prod": "NODE_ENV=production node server.js"
   },
   "keywords": [
     "loyalty",

@@ -98,17 +98,39 @@ mkdir -p logs
 
 ## Running the Application
 
-### Development mode
+### Development Mode (Separate Servers)
+
+**Backend** (Port 3000):
 ```bash
 npm run dev
 ```
 
-### Production mode
+**Frontend** (Port 3001):
 ```bash
-npm start
+cd frontend
+npm run dev
 ```
 
-The server will start on http://localhost:3000 (or the port specified in .env)
+Access frontend at http://localhost:3001
+
+### Production Mode (Single Server)
+
+**Build and start**:
+```bash
+# Build frontend
+npm run build
+
+# Start production server
+npm run start:prod
+```
+
+Access application at http://localhost:3000
+
+The production server serves both:
+- Frontend at `http://localhost:3000/`
+- API at `http://localhost:3000/api/`
+
+For detailed production deployment with PM2 and Nginx, see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## API Endpoints
 
