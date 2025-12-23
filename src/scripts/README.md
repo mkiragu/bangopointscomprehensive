@@ -1,8 +1,64 @@
-# Demo Data Seeding Script
+# Database Seeding Scripts
 
-This script populates the BangoPoints database with realistic demo data for testing and demonstration purposes.
+This directory contains scripts for populating the database with test and demo data.
 
-## What It Does
+## Available Scripts
+
+### 1. seed-demo-data.js - Comprehensive Demo Data
+**Purpose**: Creates realistic, multi-week simulation data for full platform demonstration.
+
+**Run with**:
+```bash
+npm run seed:demo
+```
+
+**Features**:
+- Parses 50+ brands from `product_master.csv`
+- Creates 31 demo users across all 10 roles
+- Generates 150+ receipts over 30 days
+- Creates 100+ PPG clock records with GPS
+- Realistic transaction patterns and scenarios
+
+**Use when**: Demonstrating the full platform, testing complex workflows, showcasing all features.
+
+**Requirements**: `csv-parser` package, `product_master.csv` file in project root.
+
+### 2. insert-dummy-data.js - Quick Test Data ✨ NEW
+**Purpose**: Fast insertion of minimal test data for rapid development.
+
+**Run with**:
+```bash
+npm run insert:dummy
+```
+
+**Features**:
+- No external dependencies (no CSV needed)
+- Creates 6 test users (one per major role)
+- Adds 10 test brands (hardcoded)
+- Creates 5 test receipts
+- Completes in under 5 seconds
+
+**Use when**: Quick testing, development iterations, minimal data needed.
+
+**Requirements**: None - self-contained script.
+
+---
+
+## Quick Comparison
+
+| Feature | insert:dummy | seed:demo |
+|---------|-------------|-----------|
+| **Speed** | ⚡ Fast (~5 sec) | 🐢 Slower (~30 sec) |
+| **Dependencies** | None | csv-parser |
+| **Users** | 6 basic accounts | 31 complete accounts |
+| **Brands** | 10 hardcoded | 50+ from CSV |
+| **Data Volume** | Minimal | Comprehensive |
+| **Scenarios** | Basic | Realistic multi-week |
+| **Best For** | Development | Demonstration |
+
+---
+
+## Detailed: seed-demo-data.js
 
 The `seed-demo-data.js` script creates:
 

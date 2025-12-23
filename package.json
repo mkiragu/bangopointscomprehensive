@@ -12,6 +12,7 @@
     "migrate": "node src/migrations/migrate.js",
     "seed": "node src/migrations/seed.js",
     "seed:demo": "node src/scripts/seed-demo-data.js",
+    "insert:dummy": "node src/scripts/insert-dummy-data.js",
     "build": "cd frontend && npm install && npm run build && cd ..",
     "build:clean": "rm -rf frontend/dist && npm run build",
     "install:frontend": "cd frontend && npm install && cd ..",
