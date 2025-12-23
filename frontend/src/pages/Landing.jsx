@@ -1,7 +1,29 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Gift, TrendingUp, Award, Smartphone, ShoppingBag, Users } from 'lucide-react';
+import { useAuthStore } from '../store/authStore';
 
 export default function Landing() {
+  const { user } = useAuthStore();
+  
+  // If user is logged in, redirect to appropriate dashboard
+  if (user) {
+    const roleRoutes = {
+      shopper: '/shopper/dashboard',
+      admin: '/admin/dashboard',
+      ppg: '/ppg/dashboard',
+      beo: '/beo/dashboard',
+      brand_manager: '/brand-manager/dashboard',
+      executive: '/admin/dashboard',
+      area_manager: '/admin/dashboard',
+      beo_supervisor: '/beo/dashboard',
+      ppg_supervisor: '/ppg/dashboard',
+      shop: '/shopper/dashboard'
+    };
+    
+    const redirectPath = roleRoutes[user.role] || '/shopper/dashboard';
+    return <Navigate to={redirectPath} replace />;
+  }
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
       {/* Navigation Bar */}

@@ -90,7 +90,25 @@ const Login = () => {
     const result = await login(formData.email, formData.password);
     
     if (result.success) {
-      navigate('/');
+      // Get the logged-in user from auth store
+      const user = useAuthStore.getState().user;
+      
+      // Redirect to appropriate dashboard based on role
+      const roleRoutes = {
+        shopper: '/shopper/dashboard',
+        admin: '/admin/dashboard',
+        ppg: '/ppg/dashboard',
+        beo: '/beo/dashboard',
+        brand_manager: '/brand-manager/dashboard',
+        executive: '/admin/dashboard',
+        area_manager: '/admin/dashboard',
+        beo_supervisor: '/beo/dashboard',
+        ppg_supervisor: '/ppg/dashboard',
+        shop: '/shopper/dashboard'
+      };
+      
+      const redirectPath = roleRoutes[user?.role] || '/shopper/dashboard';
+      navigate(redirectPath);
     } else {
       setError(result.error);
     }
