@@ -116,17 +116,34 @@ const Register = () => {
 
   // Check if form is valid
   const isFormValid = () => {
-    return (
-      formData.email &&
-      formData.password &&
-      formData.confirmPassword &&
-      formData.first_name &&
-      formData.last_name &&
-      formData.phone_number &&
-      passwordStrength === 5 &&
-      formData.password === formData.confirmPassword &&
-      Object.values(fieldErrors).every((error) => !error)
-    );
+    // Check all fields are filled
+    if (!formData.email || !formData.password || !formData.confirmPassword ||
+        !formData.first_name || !formData.last_name || !formData.phone_number) {
+      return false;
+    }
+
+    // Check password strength
+    if (passwordStrength !== 5) {
+      return false;
+    }
+
+    // Check passwords match
+    if (formData.password !== formData.confirmPassword) {
+      return false;
+    }
+
+    // Validate all fields
+    const errors = {
+      email: validateEmail(formData.email),
+      first_name: validateName(formData.first_name, 'First name'),
+      last_name: validateName(formData.last_name, 'Last name'),
+      phone_number: validatePhone(formData.phone_number),
+      password: validatePassword(formData.password),
+      confirmPassword: validateConfirmPassword(formData.confirmPassword)
+    };
+
+    // Check if any errors exist
+    return Object.values(errors).every((error) => !error);
   };
 
   const getPasswordStrengthColor = () => {
