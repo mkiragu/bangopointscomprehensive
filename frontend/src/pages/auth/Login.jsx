@@ -352,7 +352,7 @@ const Login = () => {
       </div>
 
       {/* Demo Users Section */}
-      <div className="mt-8 pt-6 border-t border-silver-800">
+      <div className="mt-8 pt-6 border-t border-silver-900">
         <h3 className="text-lg font-semibold text-accent-primary mb-3 text-center">
           Quick Demo Access
         </h3>
@@ -369,9 +369,9 @@ const Login = () => {
                 onClick={() => handleDemoUserClick(user)}
                 disabled={loading}
                 className={`
-                  relative overflow-hidden p-4 rounded-lg border border-silver-700 
+                  relative overflow-hidden p-4 rounded-lg border border-silver-800 
                   bg-gradient-to-br ${user.color} bg-opacity-10
-                  hover:bg-opacity-20 hover:border-silver-600
+                  hover:bg-opacity-20 hover:border-silver-700
                   transition-all duration-200 transform hover:scale-105
                   disabled:opacity-50 disabled:cursor-not-allowed
                   group text-left
