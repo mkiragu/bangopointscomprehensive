@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle, CheckCircle2, CheckCircle } from 'lucide-react';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [touched, setTouched] = useState({});
@@ -71,6 +72,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccessMessage('');
     
     // Validate all fields
     const emailError = validateEmail(formData.email);
@@ -82,38 +84,56 @@ const Login = () => {
         password: passwordError
       });
       setTouched({ email: true, password: true });
+      setError('Please fix the validation errors');
       return;
     }
 
     setLoading(true);
 
-    const result = await login(formData.email, formData.password);
-    
-    if (result.success) {
-      // Use the user returned from login to ensure we have the latest data
-      const user = result.user;
+    try {
+      console.log('Starting login process...');
+      const result = await login(formData.email, formData.password);
+      console.log('Login result:', result);
       
-      // Redirect to appropriate dashboard based on role
-      const roleRoutes = {
-        shopper: '/shopper/dashboard',
-        admin: '/admin/dashboard',
-        ppg: '/ppg/dashboard',
-        beo: '/beo/dashboard',
-        brand_manager: '/brand-manager/dashboard',
-        executive: '/admin/dashboard',
-        area_manager: '/admin/dashboard',
-        beo_supervisor: '/beo/dashboard',
-        ppg_supervisor: '/ppg/dashboard',
-        shop: '/shopper/dashboard'
-      };
-      
-      const redirectPath = roleRoutes[user?.role] || '/shopper/dashboard';
-      navigate(redirectPath, { replace: true });
-    } else {
-      setError(result.error);
+      if (result.success && result.user) {
+        // Use the user returned from login to ensure we have the latest data
+        const user = result.user;
+        console.log('Login successful! User:', user);
+        
+        // Show success message
+        setSuccessMessage(`Welcome back, ${user.firstName || 'User'}! Redirecting to your dashboard...`);
+        
+        // Redirect to appropriate dashboard based on role
+        const roleRoutes = {
+          shopper: '/shopper/dashboard',
+          admin: '/admin/dashboard',
+          ppg: '/ppg/dashboard',
+          beo: '/beo/dashboard',
+          brand_manager: '/brand-manager/dashboard',
+          executive: '/admin/dashboard',
+          area_manager: '/admin/dashboard',
+          beo_supervisor: '/beo/dashboard',
+          ppg_supervisor: '/ppg/dashboard',
+          shop: '/shopper/dashboard'
+        };
+        
+        const redirectPath = roleRoutes[user?.role] || '/shopper/dashboard';
+        console.log('Redirecting to:', redirectPath);
+        
+        // Add a small delay to show the success message
+        setTimeout(() => {
+          navigate(redirectPath, { replace: true });
+        }, 1500);
+      } else {
+        console.error('Login failed:', result);
+        setError(result.error || 'Login failed. Please try again.');
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error('Login exception:', err);
+      setError('An unexpected error occurred. Please try again.');
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   const isFormValid = () => {
@@ -128,9 +148,16 @@ const Login = () => {
       </h2>
 
       {error && (
-        <div className="bg-red-900/30 border border-red-700 text-red-200 px-4 py-3 rounded-lg mb-4 flex items-start gap-2">
+        <div className="bg-red-900/30 border border-red-700 text-red-200 px-4 py-3 rounded-lg mb-4 flex items-start gap-2 animate-shake">
           <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
           <span>{error}</span>
+        </div>
+      )}
+
+      {successMessage && (
+        <div className="bg-green-900/30 border border-green-700 text-green-200 px-4 py-3 rounded-lg mb-4 flex items-start gap-2 animate-fade-in">
+          <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+          <span>{successMessage}</span>
         </div>
       )}
 
@@ -236,8 +263,17 @@ const Login = () => {
           }`}
           aria-busy={loading}
         >
-          <LogIn className="w-5 h-5" />
-          {loading ? 'Signing in...' : 'Sign In'}
+          {loading ? (
+            <>
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <span>Signing in...</span>
+            </>
+          ) : (
+            <>
+              <LogIn className="w-5 h-5" />
+              <span>Sign In</span>
+            </>
+          )}
         </button>
       </form>
 
