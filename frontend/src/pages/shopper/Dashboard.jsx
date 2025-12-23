@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Trophy, TrendingUp, Receipt, Gift, ArrowUp } from 'lucide-react';
 import api from '../../services/api';
 
@@ -180,8 +181,8 @@ const ShopperDashboard = () => {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <a
-          href="/shopper/receipts"
+        <Link
+          to="/shopper/receipts"
           className="card hover:shadow-silver-lg transition-all cursor-pointer"
         >
           <div className="flex items-center gap-4">
@@ -193,10 +194,10 @@ const ShopperDashboard = () => {
               <p className="text-sm text-silver-400">Earn more points</p>
             </div>
           </div>
-        </a>
+        </Link>
 
-        <a
-          href="/shopper/rewards"
+        <Link
+          to="/shopper/rewards"
           className="card hover:shadow-silver-lg transition-all cursor-pointer"
         >
           <div className="flex items-center gap-4">
@@ -208,10 +209,10 @@ const ShopperDashboard = () => {
               <p className="text-sm text-silver-400">Redeem your points</p>
             </div>
           </div>
-        </a>
+        </Link>
 
-        <a
-          href="/shopper/profile"
+        <Link
+          to="/shopper/profile"
           className="card hover:shadow-silver-lg transition-all cursor-pointer"
         >
           <div className="flex items-center gap-4">
@@ -223,7 +224,7 @@ const ShopperDashboard = () => {
               <p className="text-sm text-silver-400">See your rewards</p>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   );
