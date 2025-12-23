@@ -408,8 +408,6 @@ const Register = () => {
             <p className="text-red-400 text-xs mt-1">{fieldErrors.confirmPassword}</p>
           )}
         </div>
-          </div>
-        </div>
 
         <button
           type="submit"
