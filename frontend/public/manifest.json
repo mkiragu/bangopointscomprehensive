@@ -1,0 +1,60 @@
+{
+  "name": "BangoPoints Loyalty Platform",
+  "short_name": "BangoPoints",
+  "description": "Kenyan loyalty platform for shoppers, brands, and PPG staff",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#c0c0c0",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity", "lifestyle"],
+  "icons": [
+    {
+      "src": "/images/bango-PrA-150x150.png",
+      "sizes": "150x150",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/bango-PrA-300x300.png",
+      "sizes": "300x300",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/bango-PrA-768x768.png",
+      "sizes": "768x768",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/bango-PrA-1024x1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/bango-actual-768x431.png",
+      "sizes": "768x431",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Clock In",
+      "short_name": "Clock In",
+      "description": "Clock in for your shift",
+      "url": "/ppg/clock-in",
+      "icons": [{ "src": "/images/bango-PrA-150x150.png", "sizes": "150x150" }]
+    },
+    {
+      "name": "Upload Receipt",
+      "short_name": "Receipt",
+      "description": "Upload a receipt",
+      "url": "/shopper/receipts",
+      "icons": [{ "src": "/images/bango-PrA-150x150.png", "sizes": "150x150" }]
+    }
+  ]
+}

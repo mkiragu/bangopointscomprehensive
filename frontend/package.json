@@ -1,7 +1,7 @@
 {
   "name": "bangopoints-frontend",
   "version": "1.0.0",
-  "description": "BangoPoints Frontend - Dark Mode with Silver Accents",
+  "description": "BangoPoints Frontend - Progressive Web App with Dark Mode",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -18,7 +18,8 @@
     "react-hook-form": "^7.48.2",
     "lucide-react": "^0.294.0",
     "recharts": "^2.10.3",
-    "date-fns": "^2.30.0"
+    "date-fns": "^2.30.0",
+    "tesseract.js": "^5.0.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -31,6 +32,8 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vite-plugin-pwa": "^0.17.4",
+    "workbox-window": "^7.0.0"
   }
 }
