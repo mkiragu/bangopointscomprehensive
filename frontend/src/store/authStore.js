@@ -17,7 +17,7 @@ export const useAuthStore = create(
           set({ user, token, refreshToken });
           api.setToken(token);
           
-          return { success: true };
+          return { success: true, user };
         } catch (error) {
           return {
             success: false,

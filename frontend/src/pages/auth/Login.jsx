@@ -90,8 +90,8 @@ const Login = () => {
     const result = await login(formData.email, formData.password);
     
     if (result.success) {
-      // Get the logged-in user from auth store
-      const user = useAuthStore.getState().user;
+      // Use the user returned from login to ensure we have the latest data
+      const user = result.user;
       
       // Redirect to appropriate dashboard based on role
       const roleRoutes = {
@@ -108,7 +108,7 @@ const Login = () => {
       };
       
       const redirectPath = roleRoutes[user?.role] || '/shopper/dashboard';
-      navigate(redirectPath);
+      navigate(redirectPath, { replace: true });
     } else {
       setError(result.error);
     }
