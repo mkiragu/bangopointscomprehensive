@@ -91,9 +91,7 @@ const Login = () => {
         setMessage(`Welcome ${user.name}! Redirecting...`);
         
         // Navigate to the dashboard
-        setTimeout(() => {
-          navigate(user.dashboard);
-        }, 500);
+        navigate(user.dashboard);
       } else {
         console.error('Login failed:', result);
         setMessage(`Login failed: ${result.error || 'Please try again'}`);
