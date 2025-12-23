@@ -33,6 +33,10 @@ import BEOReceipts from './pages/beo/Receipts';
 // Brand Manager pages
 import BrandManagerDashboard from './pages/brandManager/Dashboard';
 import BrandManagerBrands from './pages/brandManager/Brands';
+import BrandManagerBilling from './pages/brandManager/Billing';
+import BrandManagerAnalytics from './pages/brandManager/Analytics';
+import BrandManagerCustomers from './pages/brandManager/Customers';
+import BrandManagerNotifications from './pages/brandManager/Notifications';
 
 // Layouts
 import MainLayout from './components/layouts/MainLayout';
@@ -87,6 +91,10 @@ function App() {
           {/* Brand Manager routes */}
           <Route path="/brand-manager/dashboard" element={<BrandManagerDashboard />} />
           <Route path="/brand-manager/brands" element={<BrandManagerBrands />} />
+          <Route path="/brand-manager/billing" element={<BrandManagerBilling />} />
+          <Route path="/brand-manager/analytics" element={<BrandManagerAnalytics />} />
+          <Route path="/brand-manager/customers" element={<BrandManagerCustomers />} />
+          <Route path="/brand-manager/notifications" element={<BrandManagerNotifications />} />
         </Route>
 
         {/* Fallback for unknown routes */}
