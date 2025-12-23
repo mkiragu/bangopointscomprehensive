@@ -90,9 +90,6 @@ const Login = () => {
             />
             Remember me
           </label>
-          <Link to="/forgot-password" className="text-accent-primary hover:text-accent-hover">
-            Forgot password?
-          </Link>
         </div>
 
         <button
