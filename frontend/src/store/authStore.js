@@ -12,10 +12,11 @@ export const useAuthStore = create(
       login: async (email, password) => {
         try {
           const response = await api.post('/auth/login', { email, password });
-          const { user, token, refreshToken } = response.data;
+          // Backend returns { success, message, data: { user, accessToken, refreshToken } }
+          const { user, accessToken, refreshToken } = response.data.data;
           
-          set({ user, token, refreshToken });
-          api.setToken(token);
+          set({ user, token: accessToken, refreshToken });
+          api.setToken(accessToken);
           
           return { success: true, user };
         } catch (error) {
