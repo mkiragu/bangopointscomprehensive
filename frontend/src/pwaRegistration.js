@@ -155,7 +155,7 @@ function hideInstallButton() {
 export function setupNetworkListener() {
   window.addEventListener('online', () => {
     console.log('[PWA] Back online');
-    showNetworkStatus('You're back online!', 'success');
+    showNetworkStatus("You're back online!", 'success');
     
     // Trigger background sync if supported
     if ('serviceWorker' in navigator && 'sync' in ServiceWorkerRegistration.prototype) {
@@ -168,7 +168,7 @@ export function setupNetworkListener() {
 
   window.addEventListener('offline', () => {
     console.log('[PWA] Offline');
-    showNetworkStatus('You're offline. Changes will sync when you reconnect.', 'warning');
+    showNetworkStatus("You're offline. Changes will sync when you reconnect.", 'warning');
   });
 }
 
