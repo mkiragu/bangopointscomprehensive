@@ -1,103 +1,51 @@
-import axios from 'axios';
+import { DEMO_DATA } from './mockData';
 
-// Constants
-const AUTH_STORAGE_KEY = 'auth-storage';
+const MOCK_MODE = true;
+const API_DELAY = 300;
 
-// Helper function to get auth data from Zustand persist storage
-const getAuthFromStorage = () => {
-  const authStorage = localStorage.getItem(AUTH_STORAGE_KEY);
-  if (!authStorage) return { token: null, refreshToken: null };
-  
-  try {
-    const { state } = JSON.parse(authStorage);
-    return {
-      token: state?.token || null,
-      refreshToken: state?.refreshToken || null
-    };
-  } catch (e) {
-    console.error('Error parsing auth storage:', e);
-    return { token: null, refreshToken: null };
-  }
-};
-
-// Helper to update token in store
-let authStoreUpdateToken = null;
-
-const api = axios.create({
-  baseURL: '/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Set the auth store update function (called from authStore)
-api.setAuthStoreUpdateToken = (updateFn) => {
-  authStoreUpdateToken = updateFn;
-};
-
-// Add token to requests
-api.interceptors.request.use(
-  (config) => {
-    const { token } = getAuthFromStorage();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+const mockHandlers = {
+  '/auth/login': (body) => {
+    const user = DEMO_DATA.users[body.role];
+    if (!user) {
+      return { success: false, error: 'Invalid role' };
     }
-    return config;
+    return { success: true, user, token: 'demo-' + Date.now() };
   },
-  (error) => Promise.reject(error)
-);
-
-// Handle responses and refresh tokens
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      
-      try {
-        const { refreshToken } = getAuthFromStorage();
-        
-        if (!refreshToken) {
-          throw new Error('No refresh token available');
-        }
-        
-        const response = await axios.post('/api/auth/refresh-token', {
-          refreshToken,
-        });
-        
-        const { token: newToken } = response.data;
-        
-        // Update token using the registered function
-        if (authStoreUpdateToken) {
-          authStoreUpdateToken(newToken);
-        } else {
-          console.warn('Auth store update function not registered. Token may not persist correctly.');
-        }
-        
-        api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
-        
-        return api(originalRequest);
-      } catch (refreshError) {
-        // Clear storage and redirect to login
-        localStorage.removeItem(AUTH_STORAGE_KEY);
-        window.location.href = '/login';
-        return Promise.reject(refreshError);
-      }
-    }
-    
-    return Promise.reject(error);
-  }
-);
-
-// Helper to set token
-api.setToken = (token) => {
-  if (token) {
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  } else {
-    delete api.defaults.headers.common['Authorization'];
-  }
+  '/shoppers/points': () => ({ success: true, data: { points: 2450, tier: 'silver', multiplier: 1.5 } }),
+  '/shoppers/receipts': () => ({ success: true, data: DEMO_DATA.receipts }),
+  '/shoppers/rewards': () => ({ success: true, data: DEMO_DATA.rewards }),
+  '/admin/users': () => ({ success: true, data: Object.values(DEMO_DATA.users) }),
+  '/admin/brands': () => ({ success: true, data: DEMO_DATA.brands }),
+  '/admin/stores': () => ({ success: true, data: DEMO_DATA.stores }),
+  '/brand-manager/analytics': () => ({ success: true, data: DEMO_DATA.analytics }),
+  '/ppg/clock': (body) => ({ success: true, message: body.action === 'in' ? 'Clocked in' : 'Clocked out' }),
+  '/beo/receipts/pending': () => ({ success: true, data: DEMO_DATA.receipts.filter((r) => r.status === 'pending') })
 };
 
-export default api;
+const delay = () => new Promise((resolve) => setTimeout(resolve, API_DELAY));
+
+export const api = {
+  get: async (url) => {
+    if (MOCK_MODE) {
+      await delay();
+      const handler = mockHandlers[url];
+      return handler ? handler() : { success: false, error: 'Not found' };
+    }
+    const res = await fetch('/api' + url);
+    return res.json();
+  },
+
+  post: async (url, body) => {
+    if (MOCK_MODE) {
+      await delay();
+      const handler = mockHandlers[url];
+      return handler ? handler(body) : { success: false, error: 'Not found' };
+    }
+    const res = await fetch('/api' + url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    return res.json();
+  }
+};
