@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Menu, X, Bell, User, LogOut, LayoutDashboard, Receipt, Gift, Users, Store, Award, Clock, FileText } from 'lucide-react';
+import { Menu, X, Bell, User, LogOut, LayoutDashboard, Receipt, Gift, Users, Store, Award, Clock, FileText, DollarSign, TrendingUp, UserCheck } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../Logo';
@@ -41,7 +41,11 @@ const MainLayout = () => {
       ],
       brand_manager: [
         { path: '/brand-manager/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+        { path: '/brand-manager/billing', icon: DollarSign, label: 'Billing' },
+        { path: '/brand-manager/analytics', icon: TrendingUp, label: 'Analytics' },
+        { path: '/brand-manager/customers', icon: UserCheck, label: 'Customers' },
         { path: '/brand-manager/brands', icon: Award, label: 'My Brands' },
+        { path: '/brand-manager/notifications', icon: Bell, label: 'Notifications' },
       ],
     };
 
