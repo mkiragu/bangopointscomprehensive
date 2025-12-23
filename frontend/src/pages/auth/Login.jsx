@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle, CheckCircle2, CheckCircle } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle, CheckCircle2, CheckCircle, UserCircle, ShoppingCart, Shield, Users, Building2, Briefcase } from 'lucide-react';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -138,6 +138,74 @@ const Login = () => {
   const isFormValid = () => {
     return formData.email && formData.password && 
            Object.keys(fieldErrors).length === 0;
+  };
+
+  // Demo users for quick access
+  const demoUsers = [
+    { 
+      name: 'Admin User', 
+      email: 'admin@test.com', 
+      role: 'admin', 
+      dashboard: '/admin/dashboard',
+      icon: Shield,
+      color: 'from-purple-500 to-purple-700',
+      description: 'Full system access'
+    },
+    { 
+      name: 'Brand Manager', 
+      email: 'manager@test.com', 
+      role: 'brand_manager', 
+      dashboard: '/brand-manager/dashboard',
+      icon: Briefcase,
+      color: 'from-blue-500 to-blue-700',
+      description: 'Manage campaigns & analytics'
+    },
+    { 
+      name: 'Shopper', 
+      email: 'shopper@test.com', 
+      role: 'shopper', 
+      dashboard: '/shopper/dashboard',
+      icon: ShoppingCart,
+      color: 'from-green-500 to-green-700',
+      description: 'Earn & redeem points'
+    },
+    { 
+      name: 'PPG Agent', 
+      email: 'ppg@test.com', 
+      role: 'ppg', 
+      dashboard: '/ppg/dashboard',
+      icon: UserCircle,
+      color: 'from-orange-500 to-orange-700',
+      description: 'Product promotion'
+    },
+    { 
+      name: 'BEO Agent', 
+      email: 'beo@test.com', 
+      role: 'beo', 
+      dashboard: '/beo/dashboard',
+      icon: Users,
+      color: 'from-teal-500 to-teal-700',
+      description: 'Brand engagement'
+    },
+    { 
+      name: 'Executive', 
+      email: 'ceo@test.com', 
+      role: 'executive', 
+      dashboard: '/admin/dashboard',
+      icon: Building2,
+      color: 'from-red-500 to-red-700',
+      description: 'Executive overview'
+    },
+  ];
+
+  const handleDemoUserClick = (user) => {
+    console.log('Demo user clicked:', user);
+    // Show loading message
+    setSuccessMessage(`Logging in as ${user.name}...`);
+    // Navigate directly to dashboard after a brief moment
+    setTimeout(() => {
+      window.location.href = user.dashboard;
+    }, 500);
   };
 
   return (
@@ -281,6 +349,63 @@ const Login = () => {
         <Link to="/register" className="text-accent-primary hover:text-accent-hover font-semibold">
           Sign up
         </Link>
+      </div>
+
+      {/* Demo Users Section */}
+      <div className="mt-8 pt-6 border-t border-silver-800">
+        <h3 className="text-lg font-semibold text-accent-primary mb-3 text-center">
+          Quick Demo Access
+        </h3>
+        <p className="text-xs text-silver-400 text-center mb-4">
+          Click any role below to explore the platform instantly
+        </p>
+        
+        <div className="grid grid-cols-2 gap-3">
+          {demoUsers.map((user, index) => {
+            const Icon = user.icon;
+            return (
+              <button
+                key={index}
+                onClick={() => handleDemoUserClick(user)}
+                disabled={loading}
+                className={`
+                  relative overflow-hidden p-4 rounded-lg border border-silver-700 
+                  bg-gradient-to-br ${user.color} bg-opacity-10
+                  hover:bg-opacity-20 hover:border-silver-600
+                  transition-all duration-200 transform hover:scale-105
+                  disabled:opacity-50 disabled:cursor-not-allowed
+                  group text-left
+                `}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`p-2 rounded-lg bg-gradient-to-br ${user.color} bg-opacity-20`}>
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-silver-100 text-sm truncate">
+                      {user.name}
+                    </div>
+                    <div className="text-xs text-silver-400 truncate">
+                      {user.description}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Hover effect overlay */}
+                <div className={`
+                  absolute inset-0 bg-gradient-to-br ${user.color} opacity-0 
+                  group-hover:opacity-10 transition-opacity duration-200
+                `} />
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 text-center">
+          <p className="text-xs text-silver-500">
+            All demo accounts use password: <span className="font-mono text-accent-primary">Test@123</span>
+          </p>
+        </div>
       </div>
     </div>
   );
