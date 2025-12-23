@@ -11,7 +11,10 @@ const server = app.listen(PORT, async () => {
   
   // Test database connection (non-blocking)
   if (db.testConnection) {
-    await db.testConnection();
+    const connected = await db.testConnection();
+    if (!connected) {
+      logger.warn('Server started but database connection failed. Some features may not work properly.');
+    }
   }
   
   // Initialize cron jobs

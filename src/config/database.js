@@ -27,5 +27,6 @@ const testConnection = async () => {
   }
 };
 
+// Export pool as default with testConnection method attached
+pool.testConnection = testConnection;
 module.exports = pool;
-module.exports.testConnection = testConnection;
