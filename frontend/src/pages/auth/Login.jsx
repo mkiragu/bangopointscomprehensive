@@ -84,9 +84,9 @@ const Login = () => {
       console.log('Mock user set:', mockUser);
     }
     
-    // Navigate directly to dashboard after setting user
+    // Use window.location.href for guaranteed navigation
     setTimeout(() => {
-      navigate(user.dashboard);
+      window.location.href = user.dashboard;
     }, 500);
   };
 
