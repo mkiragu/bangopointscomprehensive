@@ -160,6 +160,15 @@ fi
 print_info "Installing backend npm packages..."
 npm install
 print_success "Backend dependencies installed successfully"
+
+# Ensure csv-parser is installed (needed for demo data seeding)
+print_info "Verifying csv-parser installation..."
+npm list csv-parser > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    print_info "Installing csv-parser..."
+    npm install csv-parser@^3.0.0
+    print_success "csv-parser installed"
+fi
 echo ""
 
 # ============================================================
