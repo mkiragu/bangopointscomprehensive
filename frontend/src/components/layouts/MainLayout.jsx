@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Menu, X, Bell, User, LogOut, LayoutDashboard, Receipt, Gift, Users, Store, Award, Clock, FileText } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Logo from '../Logo';
 
 const MainLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -56,15 +57,13 @@ const MainLayout = () => {
         } overflow-hidden`}
       >
         <div className="p-6">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-accent-primary rounded-lg flex items-center justify-center">
-              <Award className="w-6 h-6 text-dark-500" />
-            </div>
+          <Link to="/" className="flex items-center gap-3 mb-8 hover:opacity-80 transition-opacity">
+            <Logo variant="icon" size="sm" className="rounded-lg" />
             <div>
               <h1 className="text-xl font-bold text-accent-primary">BangoPoints</h1>
               <p className="text-xs text-silver-400">Loyalty Platform</p>
             </div>
-          </div>
+          </Link>
 
           <nav className="space-y-2">
             {getNavItems().map((item) => {
