@@ -74,10 +74,14 @@ async function insertDummyData() {
     const userIds = {};
     
     for (const user of dummyUsers) {
+      const nameParts = user.name.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.slice(1).join(' ') || nameParts[0];
+      
       const [result] = await connection.execute(
-        `INSERT IGNORE INTO users (email, password, name, role, is_active, created_at, updated_at)
-         VALUES (?, ?, ?, ?, 1, NOW(), NOW())`,
-        [user.email, hashedPassword, user.name, user.role]
+        `INSERT IGNORE INTO users (email, password_hash, first_name, last_name, role, is_active, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, 1, NOW(), NOW())`,
+        [user.email, hashedPassword, firstName, lastName, user.role]
       );
       
       if (result.affectedRows > 0) {
