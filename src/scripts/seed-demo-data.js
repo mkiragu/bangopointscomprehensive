@@ -79,6 +79,7 @@ async function seedDemoData() {
     const ppgUserIds = [];
     const beoUserIds = [];
     
+    // Shoppers
     for (let i = 1; i <= 10; i++) {
       const email = `shopper${i}@bangopoints.com`;
       shopperEmails.push(email);
@@ -89,6 +90,7 @@ async function seedDemoData() {
       );
     }
     
+    // PPG Staff
     for (let i = 1; i <= 5; i++) {
       const email = `ppg${i}@bangopoints.com`;
       const [result] = await connection.query(
@@ -99,6 +101,7 @@ async function seedDemoData() {
       if (result.insertId) ppgUserIds.push(result.insertId);
     }
     
+    // BEO Staff
     for (let i = 1; i <= 3; i++) {
       const email = `beo${i}@bangopoints.com`;
       const [result] = await connection.query(
@@ -109,13 +112,21 @@ async function seedDemoData() {
       if (result.insertId) beoUserIds.push(result.insertId);
     }
     
+    // Admin
     await connection.query(
       `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
        VALUES (?, ?, 'admin', 'System', 'Administrator', '+254712000001', TRUE, TRUE)`,
       ['admin@bangopoints.com', adminPasswordHash]
     );
     
-    console.log(`✅ Created ${shopperEmails.length} shoppers, ${ppgUserIds.length} PPG staff, ${beoUserIds.length} BEO staff`);
+    // Brand Manager
+    await connection.query(
+      `INSERT IGNORE INTO users (email, password_hash, role, first_name, last_name, phone_number, is_active, email_verified) 
+       VALUES (?, ?, 'brand_manager', 'Brand', 'Manager', '+254712000015', TRUE, TRUE)`,
+      ['brandmanager@bangopoints.com', demoPasswordHash]
+    );
+    
+    console.log(`✅ Created ${shopperEmails.length} shoppers, ${ppgUserIds.length} PPG staff, ${beoUserIds.length} BEO staff, 1 brand manager`);
 
     // Get user IDs
     const [shopperUsers] = await connection.query(
@@ -242,6 +253,7 @@ async function seedDemoData() {
     console.log(`   - ${notificationCount} notifications`);
     console.log('\n🔐 Demo User Credentials:');
     console.log('   Admin: admin@bangopoints.com / Admin@123');
+    console.log('   Brand Manager: brandmanager@bangopoints.com / Demo@123');
     console.log('   Shopper: shopper1@bangopoints.com / Demo@123');
     console.log('   PPG: ppg1@bangopoints.com / Demo@123');
     console.log('   BEO: beo1@bangopoints.com / Demo@123\n');

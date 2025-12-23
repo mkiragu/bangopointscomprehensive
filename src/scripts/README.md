@@ -33,7 +33,7 @@ The `seed-demo-data.js` script creates:
 
 **Administrative Roles**:
 - Admin: `admin@bangopoints.com`
-- Brand Managers, Area Managers, Supervisors
+- Brand Manager: `brandmanager@bangopoints.com`
 
 **All demo users password**: `Demo@123`  
 **Admin password**: `Admin@123`
@@ -131,6 +131,7 @@ DB_PASSWORD=bangopoints2026
 
 🔐 Demo User Credentials:
    Admin: admin@bangopoints.com / Admin@123
+   Brand Manager: brandmanager@bangopoints.com / Demo@123
    Shopper: shopper1@bangopoints.com / Demo@123
    PPG: ppg1@bangopoints.com / Demo@123
    BEO: beo1@bangopoints.com / Demo@123
