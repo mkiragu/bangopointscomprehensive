@@ -57,7 +57,11 @@ const MainLayout = () => {
         } overflow-hidden`}
       >
         <div className="p-6">
-          <Link to="/" className="flex items-center gap-3 mb-8 hover:opacity-80 transition-opacity">
+          <Link 
+            to="/" 
+            className="flex items-center gap-3 mb-8 hover:opacity-80 transition-opacity"
+            aria-label="BangoPoints Home"
+          >
             <Logo variant="icon" size="sm" className="rounded-lg" />
             <div>
               <h1 className="text-xl font-bold text-accent-primary">BangoPoints</h1>
