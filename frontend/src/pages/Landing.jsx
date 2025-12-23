@@ -63,8 +63,7 @@ export default function Landing() {
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-            Earn <span className="text-transparent bg-clip-text bg-gradient-to-r from-silver-400 to-silver-200">Rewards</span> 
-            <br />Every Time You Shop
+            Shopping? Boom!! <span className="text-transparent bg-clip-text bg-gradient-to-r from-silver-400 to-silver-200">Rewards</span> 🎁
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
             Join Kenya's leading loyalty platform and transform your shopping into valuable rewards
